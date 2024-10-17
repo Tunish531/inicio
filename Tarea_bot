@@ -1,10 +1,14 @@
 import discord
+import random
 from discord.ext import commands
 
 intents = discord.Intents.default()
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='$', intents=intents)
+#para piedra papel y tijeras
+jugadas=["piedra", "papel", "tijeras"]
+juego1= random.choice(jugadas)
 
 @bot.event
 async def on_ready():
@@ -32,4 +36,25 @@ async def calculadora(ctx,operacion ="",num1=0,num2=0):
         await ctx.send("Lo siento, esa funcion no esta en mi base de datos, solo matematicas basicas")
         return
     await ctx.send(f'El resultado de tu {operacion} es {resultado}')
+
+@bot.command()
+async def juego(ctx, jugada ="" ,tu=0, bot=0 ) :
+    if jugada=="piedra" and juego1=="tijeras":
+        bot+=1
+    elif jugada=="piedra" and juego1=="papel":
+        tu+=1
+    if jugada=="papel" and juego1=="tijeras":
+        bot+=1
+    elif jugada=="papel" and juego1=="piedra":
+        tu+=1
+    if jugada=="tijeras" and juego1=="piedra":
+        bot+=1
+    if jugada=="tijeras" and juego1=="papel":
+        tu+=1
+    elif jugada==juego1:
+        tu+=1
+        bot+=1
+
+    await ctx.send( f"{tu},{bot} mi jugada fue {juego1}")
+
 bot.run("")
