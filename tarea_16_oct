@@ -59,12 +59,22 @@ async def juego(ctx, jugada ="" ,tu=0, bot=0 ) :
 
 @bot.command()
 async def img(ctx):
-    listaimagenes=os.listdir('animales')
+    listaimagenes=os.listdir('img')
     print (listaimagenes)
     imgEnviar=random.choice(listaimagenes)
     with open(f'img/{imgEnviar}',"rb") as f:
         imagen1=discord.File(f)
     await ctx.send(file=imagen1)
-#no supe exactamente como hacer que unos salieran con mas probabilidad que otros,pero tuuve la idea de usar una funcion if, nomas de manera diferente a como creo que seria, la forma era mas elaborada y confusa
+#no se exactamente si al hacer otra lista debo poner el bot command
+
+async def img(ctx):
+    listaimg=os.listdir('animales')
+    print (listaimagenes)
+    imgsend=random.choice(listaimg)
+    with open(f'img/{imgsend}',"rb") as f:
+        imagen1=discord.File(f)
+    await ctx.send(file=imagen1.1)
+
+#no supe exactamente como hacer que unos salieran con mas probabilidad que otros,pero tuve la idea de usar una funcion if, nomas de manera diferente a como creo que seria, la forma era mas elaborada y confusa
 
 bot.run("")
