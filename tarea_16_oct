@@ -1,0 +1,70 @@
+import discord
+import random
+import os
+from discord.ext import commands
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix='$', intents=intents)
+#para piedra papel y tijeras
+jugadas=["piedra", "papel", "tijeras"]
+juego1= random.choice(jugadas)
+
+@bot.event
+async def on_ready():
+    print(f'We have logged in as {bot.user}')
+
+@bot.command()
+async def hello(ctx):
+    await ctx.send(f'Hola, soy un bot {bot.user}!')
+
+@bot.command()
+async def heh(ctx, count_heh = 5):
+    await ctx.send("he" * count_heh)
+@bot.command()
+async def calculadora(ctx,operacion ="",num1=0,num2=0):
+    if operacion=="suma":
+        resultado=num1+num2
+    elif operacion=="resta":
+        resultado=num1-num2
+    elif operacion=="multiplicacion":
+        resultado=num1*num2  
+    elif operacion=="division":
+        if num2!=0:
+            resultado=num1/num2   
+    else:
+        await ctx.send("Lo siento, esa funcion no esta en mi base de datos, solo matematicas basicas")
+        return
+    await ctx.send(f'El resultado de tu {operacion} es {resultado}')
+
+@bot.command()
+async def juego(ctx, jugada ="" ,tu=0, bot=0 ) :
+    if jugada=="piedra" and juego1=="tijeras":
+        bot+=1
+    elif jugada=="piedra" and juego1=="papel":
+        tu+=1
+    if jugada=="papel" and juego1=="tijeras":
+        bot+=1
+    elif jugada=="papel" and juego1=="piedra":
+        tu+=1
+    if jugada=="tijeras" and juego1=="piedra":
+        bot+=1
+    if jugada=="tijeras" and juego1=="papel":
+        tu+=1
+    elif jugada==juego1:
+        tu+=1
+        bot+=1
+    await ctx.send( f"{tu},{bot} mi jugada fue {juego1}")
+
+@bot.command()
+async def img(ctx):
+    listaimagenes=os.listdir('animales')
+    print (listaimagenes)
+    imgEnviar=random.choice(listaimagenes)
+    with open(f'img/{imgEnviar}',"rb") as f:
+        imagen1=discord.File(f)
+    await ctx.send(file=imagen1)
+#no supe exactamente como hacer que unos salieran con mas probabilidad que otros,pero tuuve la idea de usar una funcion if, nomas de manera diferente a como creo que seria, la forma era mas elaborada y confusa
+
+bot.run("")
