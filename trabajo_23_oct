@@ -1,0 +1,33 @@
+import discord
+import random
+from discord.ext import commands
+
+intents= discord.Intents.default()
+intents.message_content=True
+
+botEco=commands.Bot(command_prefix="/", intents=intents)
+
+@botEco.event
+async def on_ready():
+    print(f"se inicio sesion como{botEco}")
+
+ideas=["1.crear macetas con botellas de plastico","2.convertir una caja de carton de leche en una casa para pajaros"]
+
+reciclaje=["Botella de plastico","Papel","Carton"]
+
+basura=["Pañales","Hisopos","Jeringas"]
+
+@botEco.command()
+async def manualidades(ctx):
+    await ctx.send(random.choice(ideas))
+
+@botEco.command()
+async def clasificar(ctx,*, objeto:str):
+    if objeto in reciclaje:
+        await ctx.send(f"el objeto {objeto} es reciclable")
+    elif objeto in basura:
+        await ctx.send("el objeto  es basura")
+    else:
+        await ctx.send("aun no estoy entrenado para clasificar el objeto")    
+
+botEco.run("") 
