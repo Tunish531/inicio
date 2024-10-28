@@ -1,0 +1,50 @@
+import discord
+import random
+from discord.ext import commands
+
+intents= discord.Intents.default()
+intents.message_content=True
+
+botEco=commands.Bot(command_prefix="/", intents=intents)
+
+@botEco.event
+async def on_ready():
+    print(f"se inicio sesion como{botEco}")
+
+ideas=["1.crear macetas con botellas de plastico","2.convertir una caja de carton de leche en una casa para pajaros"]
+
+reciclaje=["Botella de plastico","Papel","Carton"]
+
+basura=["Pañales","Hisopos","Jeringas"]
+
+@botEco.command()
+async def manualidades(ctx):
+    await ctx.send(random.choice(ideas))
+
+@botEco.command()
+async def clasificar(ctx,*, objeto:str):
+    if objeto in reciclaje:
+        await ctx.send(f"el objeto {objeto} es reciclable")
+    elif objeto in basura:
+        await ctx.send("el objeto  es basura")
+    else:
+        await ctx.send("aun no estoy entrenado para clasificar el objeto")    
+
+@botEco.command()
+async def degradacion(ctx,*,object:str):
+    if object in reciclaje or object in basura:
+        if object=="Botella de plastico":
+            await ctx.send(f"el objeto {object} tarda en desomponerse entre 100 y 1,000 años")
+        elif object=="Papel" or  object=="Carton":
+            await ctx.send(f"el objeto {object} tarda en desomponerse aproximadamente un año")
+        elif object=="Pañales":
+            await ctx.send(f"los {object} tardan en desomponerse entre 300 y 500 años")
+        elif object=="Hisopos":
+            await ctx.send(f"los {object} tardan en desomponerse 300  años")
+        elif object=="Jeringas":
+            await ctx.send(f"las {object} tardan 1,000 años en degradarse. El tiempo de descomposición aumenta a medida que el grosor de la jeringa es mayor")   
+    else:
+        await ctx.send(f"lo siento, el objeto {object} no esta en mi base de datos, prueba poner la primera mayuscula o intenta con algo mas")
+
+
+botEco.run("")    
